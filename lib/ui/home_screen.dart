@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_search/data/photo_provider.dart';
 import 'package:image_search/ui/widget/photo_widget.dart';
 
 import '../data/api.dart';
 import '../model/Photo.dart';
 
 class HomeScreen extends StatefulWidget {
-  final PixabayApi api;
-  const HomeScreen({Key? key, required this.api}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final photoProvider = PhotoProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   labelText: 'Search',
                   suffixIcon: IconButton(
                     onPressed: () async {
-                      final photos = await widget.api.fetch(_controller.text);
+                      final photos = await photoProvider.api.fetch(_controller.text);
                       setState(() {
                         _photos = photos;
                       });
